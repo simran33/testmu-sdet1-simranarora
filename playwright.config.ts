@@ -10,6 +10,9 @@ if (fs.existsSync(envFile)) {
   process.loadEnvFile(envFile);
 }
 
+/* One id per run, inherited by every worker, so the AI failure analysis call limit is shared across workers. */
+process.env.AI_ANALYSIS_RUN_ID ??= `${Date.now()}-${process.pid}`;
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */

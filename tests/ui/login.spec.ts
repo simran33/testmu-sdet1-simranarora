@@ -1,4 +1,5 @@
-import { test, expect, type Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
+import { test, expect } from '../fixtures';
 import { ApiClient } from '../../pages/api';
 import { AdminEditUserPage, AdminUsersPage } from '../../pages/admin-users';
 import { AccountPage, AdminDashboardPage, Header } from '../../pages/dashboard';
@@ -34,7 +35,7 @@ async function loginAsCustomer(page: Page): Promise<void> {
 
 test.describe('Login', () => {
   test.describe('Valid login', () => {
-    test('TC_LOGIN_001 | Customer logs in with valid email and password', async ({ page }) => {
+    test.only('TC_LOGIN_001 | Customer logs in with valid email and password', async ({ page }) => {
       const login = new LoginPage(page);
       const header = new Header(page);
       await login.goto();
@@ -173,7 +174,7 @@ test.describe('Login', () => {
       await expect(forgot.submit).toHaveValue('Set New Password');
     });
 
-    test('TC_LOGIN_012 | Password reset request succeeds for a registered email', async ({
+    test.only('TC_LOGIN_012 | Password reset request succeeds for a registered email', async ({
       page,
       request,
     }) => {
@@ -193,7 +194,7 @@ test.describe('Login', () => {
       expect(message).not.toMatch(/^[\w-]+(\.[\w-]+)+$/);
     });
 
-    test('TC_LOGIN_013 | Password reset request for an unregistered email does not reveal account existence', async ({
+    test.only('TC_LOGIN_013 | Password reset request for an unregistered email does not reveal account existence', async ({
       page,
     }) => {
       const forgot = new ForgotPasswordPage(page);
@@ -208,7 +209,7 @@ test.describe('Login', () => {
       await expect(forgot.successAlert).toBeVisible();
     });
 
-    test('TC_LOGIN_014 | Forgot password validates empty and malformed email', async ({ page }) => {
+    test.only('TC_LOGIN_014 | Forgot password validates empty and malformed email', async ({ page }) => {
       const forgot = new ForgotPasswordPage(page);
       await forgot.goto();
       const resetRequests = countRequests(page, '/users/forgot-password');

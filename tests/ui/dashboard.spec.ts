@@ -1,4 +1,5 @@
-import { test, expect, type Page, type Response } from '@playwright/test';
+import type { Page, Response } from '@playwright/test';
+import { test, expect } from '../fixtures';
 import { ApiClient } from '../../pages/api';
 import { AdminOrdersPage, AdminProductsPage } from '../../pages/admin-lists';
 import {
@@ -97,7 +98,7 @@ test.describe('Dashboard', () => {
       await expect(dashboard.pageTitle).toHaveText('Sales over the years');
     });
 
-    test('TC_DASHBOARD_026 | Widget shows an error message when its data fails to load', async ({
+    test.only('TC_DASHBOARD_026 | Widget shows an error message when its data fails to load', async ({
       page,
       request,
     }) => {
@@ -286,7 +287,7 @@ test.describe('Dashboard', () => {
       ).toBeVisible();
     });
 
-    test('TC_DASHBOARD_035 | Filter is kept when moving between pages of results', async ({ page, request }) => {
+    test.only('TC_DASHBOARD_035 | Filter is kept when moving between pages of results', async ({ page, request }) => {
       await loginViaApi(page, request, env.admin);
       const products = new AdminProductsPage(page);
       const query = 'a';
@@ -340,7 +341,7 @@ test.describe('Dashboard', () => {
     test.describe('mobile', () => {
       test.use({ viewport: { width: 375, height: 812 } });
 
-      test('TC_DASHBOARD_037 | Dashboard layout on mobile width', async ({ page, request }) => {
+      test.only('TC_DASHBOARD_037 | Dashboard layout on mobile width', async ({ page, request }) => {
         await loginViaApi(page, request, env.admin);
         const header = new Header(page);
         const dashboard = new AdminDashboardPage(page);

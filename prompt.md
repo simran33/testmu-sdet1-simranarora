@@ -92,3 +92,33 @@ When you're done, give me a short table: test case ID, test name, pass/fail and 
  After this move on to Dashboard and the API.
 
  #####
+ The test cases are set up and running fine. Now I'd like to add Option A, a Failure Explainer, to the HTML report, so it clearly explains every failure.
+
+What it should do:
+- When a test fails, send the failure details to the DeepSeek API (a real call, not mocked)
+- Get back a plain-English explanation of what broke and a suggested fix
+- Attach it to that test in the Playwright HTML report as "AI failure analysis", with a one-line summary at the top
+
+What to send:
+- UI tests: the error, the failing test's code, the page URL and the page state (accessibility snapshot)
+- API tests: the error and the API response (status and body)
+
+Where things go (please follow my existing folder structure):
+- Prompt template: prompts/failure-explanation.md (placeholders like {{error}}, {{test_code}}, {{url}}, {{evidence}}), loaded by the code at runtime, not hard-coded
+- LLM code: utils/llm-client.ts (the DeepSeek call) and utils/failure-explainer.ts (builds the prompt, reads the answer)
+- Fixture: tests/fixtures.ts, and the tests import test/expect from there
+- DeepSeek key from .env as DEEPSEEK_API_KEY (add it to .env.example, empty)
+- DeepSeek's API is OpenAI-compatible; check their docs for the base URL and current model name, and read the model from .env too
+- If it's a real app bug, the AI should not suggest changing the test
+- Don't create new top-level folders
+
+Keep it safe:
+- Use an automatic Playwright fixture, so the tests themselves don't change
+- Max 10 AI calls per run, only for tests that really failed
+- No key, no balance, or DeepSeek down: the report says so in plain words, and the test result never changes
+
+#####
+ Make it configurable to switch between gemini and deepseek
+
+#####
+❯ Generate a readme file , for setup in a new system including env creds generation as well

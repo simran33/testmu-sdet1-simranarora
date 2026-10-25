@@ -1,4 +1,5 @@
-import { test, expect, type APIResponse } from '@playwright/test';
+import type { APIResponse } from '@playwright/test';
+import { test, expect } from '../fixtures';
 import { ApiClient } from '../../pages/api';
 import { env } from '../../utils/env';
 import { expectShape } from '../../utils/schema';
@@ -28,7 +29,7 @@ test.describe('REST API', () => {
   });
 
   test.describe('Auth token validation', () => {
-    test('TC_API_046 | Login API returns a bearer token for valid credentials', async () => {
+    test.only('TC_API_046 | Login API returns a bearer token for valid credentials', async () => {
       const response = await api.login(env.customer);
 
       expect(response.status()).toBe(200);
@@ -163,7 +164,7 @@ test.describe('REST API', () => {
       expect((await api.get(`/brands/${brand.id}`)).status()).toBe(404);
     });
 
-    test('TC_API_056 | Customer token cannot create, update or delete admin data', async ({ request }) => {
+    test.only('TC_API_056 | Customer token cannot create, update or delete admin data', async ({ request }) => {
       // A fresh customer, so the demo customer is not used for write attempts.
       const customerToken = await api.token(await createTestUser(request));
       const existing = await createBrand(api, adminToken);
@@ -302,7 +303,7 @@ test.describe('REST API', () => {
       );
     });
 
-    test('TC_API_067 | Product field types are correct', async () => {
+    test.only('TC_API_067 | Product field types are correct', async () => {
       const id = (await (await api.get('/products?page=1')).json()).data[0].id;
 
       const response = await api.get(`/products/${id}`);

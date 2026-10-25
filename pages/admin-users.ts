@@ -14,9 +14,15 @@ export class AdminUsersPage {
     await this.page.goto('/admin/users');
   }
 
+  /** Searches and waits for the search API response, so results are on screen before the next step. */
   async search(text: string): Promise<void> {
     await this.searchQuery.fill(text);
-    await this.searchSubmit.click();
+    await Promise.all([
+      this.page.waitForResponse(
+        (r) => r.request().method() !== 'OPTIONS' && r.url().includes('/users/search'),
+      ),
+      this.searchSubmit.click(),
+    ]);
   }
 
   editButton(userId: string): Locator {
