@@ -1,0 +1,22 @@
+create a folder structure as per this format
+- tests/
+ 	- ui/
+	- api/
+- pages/
+	- login.ts
+	- dashboard.ts
+	- api.ts
+- utils/
+	- email-generator.ts
+	- name-generator.ts
+	- ….
+- test-cases/
+	- test-cases.xlsx
+	- test-case.json
+- test-data/
+       - data.json
+- prompts/    
+        -  failure-explanation.md
+- scripts
+- prompts.md
+- .env
